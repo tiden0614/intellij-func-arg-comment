@@ -1,39 +1,28 @@
 package com.github.tiden0614.intellijfuncargcomment
 
-import com.intellij.ide.highlighter.XmlFileType
-import com.intellij.openapi.components.service
-import com.intellij.psi.xml.XmlFile
-import com.intellij.testFramework.TestDataPath
+import com.github.tiden0614.intellijfuncargcomment.actions.AddFunctionArgCommentAction
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import com.intellij.util.PsiErrorElementUtil
-import com.github.tiden0614.intellijfuncargcomment.services.MyProjectService
+import org.intellij.lang.annotations.Language
 
-@TestDataPath("\$CONTENT_ROOT/src/test/testData")
 class MyPluginTest : BasePlatformTestCase() {
-
-    fun testXMLFile() {
-        val psiFile = myFixture.configureByText(XmlFileType.INSTANCE, "<foo>bar</foo>")
-        val xmlFile = assertInstanceOf(psiFile, XmlFile::class.java)
-
-        assertFalse(PsiErrorElementUtil.hasErrors(project, xmlFile.virtualFile))
-
-        assertNotNull(xmlFile.rootTag)
-
-        xmlFile.rootTag?.let {
-            assertEquals("foo", it.name)
-            assertEquals("bar", it.value.text)
+  fun testMyAction() {
+    @Language("JAVA")
+    val javaText = """
+      public class Test {
+        public int myMethod(int a, int b, String c, List<String> d, List<String> e) {
+          return 0;
         }
-    }
+        
+        public static void main(String[] args) {
+          Test test = new Test();
+          test.my<caret>Method(0, Integer.MAX_VALUE, "2", null, new ArrayList<>());
+        }
+      }
+    """.trimIndent()
 
-    fun testRename() {
-        myFixture.testRename("foo.xml", "foo_after.xml", "a2")
-    }
-
-    fun testProjectService() {
-        val projectService = project.service<MyProjectService>()
-
-        assertNotSame(projectService.getRandomNumber(), projectService.getRandomNumber())
-    }
-
-    override fun getTestDataPath() = "src/test/testData/rename"
+    val file = myFixture.addFileToProject("Test.java", javaText)
+    myFixture.configureFromExistingVirtualFile(file.virtualFile)
+    myFixture.testAction(AddFunctionArgCommentAction())
+    println(file.text)
+  }
 }

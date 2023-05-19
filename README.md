@@ -6,8 +6,8 @@
 
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
+- [x] Get familiar with the [template documentation][template].
+- [x] Adjust the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
 - [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
 - [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
 - [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
@@ -17,11 +17,35 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+# Intellij Function Argument Commenting Plugin
+The goal of this plug in is to provide auto commenting feature for function calls to increase readability.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+e.g. given a function
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+```java
+class MyClass {
+  public void myMethod(int numFoo, int numBar, boolean shouldOverride, long createdOn) {
+    ...
+  }
+}
+```
+
+When calling the function, people would so something like
+
+```java
+var obj = new MyClass();
+obj.myMethod(10, 20, false, 1000001);
+```
+
+The plugin automatically turns this function call into
+```java
+var obj = new MyClass();
+obj.myMethod(
+  /*numFoo*/ 10,
+  /*numBar*/ 20,
+  /*shouldOverride*/ false, 
+  /*createdOn*/ 1000001);
+```
 <!-- Plugin description end -->
 
 ## Installation
