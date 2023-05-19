@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.template
+package com.github.tiden0614.intellijfuncargcomment
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
