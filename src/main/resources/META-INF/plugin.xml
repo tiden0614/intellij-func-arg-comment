@@ -5,6 +5,8 @@
   <vendor>tiden0614</vendor>
 
   <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.java</depends>
+  <depends>org.jetbrains.kotlin</depends>
 
   <resource-bundle>messages.MyBundle</resource-bundle>
 
@@ -13,7 +15,7 @@
             class="com.github.tiden0614.intellijfuncargcomment.actions.AddFunctionArgCommentAction"
             text="Annotate Constant Function Arguments with Names"
             description="This actions tries to refactor the function call to add argument description comments to selected arguments">
-      <add-to-group group-id="EditorPopupMenu1.FindRefactor" anchor="last"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
     </action>
   </actions>
 </idea-plugin>

@@ -2,7 +2,11 @@ package com.github.tiden0614.intellijfuncargcomment
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.psi.*
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiIdentifier
+import com.intellij.psi.PsiMethodCallExpression
+import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.findParentInFile
 
 class Utils {
@@ -25,15 +29,6 @@ class Utils {
       return null
     }
 
-    fun getMethodDef(methodCall: PsiMethodCallExpression, actionEvent: AnActionEvent): PsiMethod? {
-      val methodDefCandidates = getResolveHelper(actionEvent).getReferencedMethodCandidates(methodCall, false)
-      if (methodDefCandidates.size != 1) {
-        return null
-      }
-      return methodDefCandidates[0].element as PsiMethod
-    }
-
-
     fun getMethodCallAtCaret(actionEvent: AnActionEvent): PsiMethodCallExpression? {
       val editor = actionEvent.getData(CommonDataKeys.EDITOR) ?: return null
       val caretModel = editor.caretModel
@@ -50,8 +45,5 @@ class Utils {
 
       return null
     }
-
-    private fun getResolveHelper(actionEvent: AnActionEvent) =
-      PsiResolveHelper.SERVICE.getInstance(actionEvent.project!!)
   }
 }

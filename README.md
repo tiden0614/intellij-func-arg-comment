@@ -17,27 +17,26 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-# Intellij Function Argument Commenting Plugin
-The goal of this plug in is to provide auto commenting feature for function calls to increase readability.
+# Function Argument Annotation
+Annotates constant expression function arguments with comment containing the argument name.
 
 e.g. given a function
 
 ```java
 class MyClass {
   public void myMethod(int numFoo, int numBar, boolean shouldOverride, long createdOn) {
-    ...
+      
   }
 }
 ```
 
-When calling the function, people would so something like
-
+For a callsite of a function without any argument annotation:
 ```java
 var obj = new MyClass();
 obj.myMethod(10, 20, false, 1000001);
 ```
 
-The plugin automatically turns this function call into
+you can tell the plugin to annotate those arguments for you.
 ```java
 var obj = new MyClass();
 obj.myMethod(
