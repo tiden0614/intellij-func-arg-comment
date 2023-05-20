@@ -11,7 +11,7 @@
 - [x] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
 - [x] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
 - [x] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `PLUGIN_ID` in the above README badges.
+- [x] Set the `PLUGIN_ID` in the above README badges.
 - [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
 - [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
@@ -19,7 +19,8 @@
 <!-- Plugin description -->
 # Func Arg Commenter
 Add comments to function arguments that are constant expressions. Improves readability for
-function calls in code reviews, etc.
+function calls in code reviews, etc. Once enabled, there will be a new "Annotate Constant Function Arguments with Names"
+option in the editor popup menu when you right-click on a function name in a function call expression.
 
 e.g. Given a function definition
 
