@@ -37,6 +37,10 @@ class AddFunctionArgCommentAction(
 
     val sb = StringBuilder("Replaced args for ${methodDef.name}: ")
     for (i in 0 until paramListCount) {
+      if (i >= methodCall.argumentList.expressionCount) {
+        break
+      }
+
       val arg = methodCall.argumentList.expressions[i]
       val param = methodDef.parameterList.parameters[i]
       if (shouldAnnotate(arg, param)) {

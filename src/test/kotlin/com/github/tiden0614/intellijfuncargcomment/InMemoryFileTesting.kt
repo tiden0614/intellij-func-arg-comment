@@ -4,7 +4,6 @@ import com.github.tiden0614.intellijfuncargcomment.actions.AddFunctionArgComment
 import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.util.findParentInFile
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import junit.framework.TestCase
 import org.intellij.lang.annotations.Language
 
 class InMemoryFileTesting : BasePlatformTestCase() {
@@ -25,11 +24,12 @@ class InMemoryFileTesting : BasePlatformTestCase() {
 
     val file = myFixture.addFileToProject("Test.java", javaText)
     myFixture.configureFromExistingVirtualFile(file.virtualFile)
-    myFixture.testAction(AddFunctionArgCommentAction())
-
     val methodCall = file
       .findElementAt(myFixture.editor.caretModel.offset)!!
       .findParentInFile { it is PsiMethodCallExpression } as PsiMethodCallExpression
+    assertEquals(5, methodCall.argumentList.expressionCount)
+
+    myFixture.testAction(AddFunctionArgCommentAction())
 
     assertMethodCallArgComment(methodCall, 0, "/*a*/")
     assertMethodCallArgComment(methodCall, 1, "/*b*/")
@@ -55,11 +55,12 @@ class InMemoryFileTesting : BasePlatformTestCase() {
 
     val file = myFixture.addFileToProject("Test.java", javaText)
     myFixture.configureFromExistingVirtualFile(file.virtualFile)
-    myFixture.testAction(AddFunctionArgCommentAction())
-
     val methodCall = file
       .findElementAt(myFixture.editor.caretModel.offset)!!
       .findParentInFile { it is PsiMethodCallExpression } as PsiMethodCallExpression
+    assertEquals(2, methodCall.argumentList.expressionCount)
+
+    myFixture.testAction(AddFunctionArgCommentAction())
 
     assertMethodCallArgComment(methodCall, 0, "/*a*/")
     assertMethodCallArgComment(methodCall, 1, "/* existingComment */")
@@ -82,11 +83,12 @@ class InMemoryFileTesting : BasePlatformTestCase() {
 
     val file = myFixture.addFileToProject("Test.java", javaText)
     myFixture.configureFromExistingVirtualFile(file.virtualFile)
-    myFixture.testAction(AddFunctionArgCommentAction())
-
     val methodCall = file
       .findElementAt(myFixture.editor.caretModel.offset)!!
       .findParentInFile { it is PsiMethodCallExpression } as PsiMethodCallExpression
+    assertEquals(5, methodCall.argumentList.expressionCount)
+
+    myFixture.testAction(AddFunctionArgCommentAction())
 
     assertMethodCallArgComment(methodCall, 0, "/*a*/")
     for (i in 1 .. 4) {
@@ -94,9 +96,36 @@ class InMemoryFileTesting : BasePlatformTestCase() {
     }
   }
 
+  fun testEmptyVarArg() {
+    @Language("JAVA")
+    val javaText = """
+      public class Test {
+        public int myMethod(int a, Integer... b) {
+          return 0;
+        }
+        
+        public static void main(String[] args) {
+          Test test = new Test();
+          test.my<caret>Method(0);
+        }
+      }
+    """.trimIndent()
+
+    val file = myFixture.addFileToProject("Test.java", javaText)
+    myFixture.configureFromExistingVirtualFile(file.virtualFile)
+    val methodCall = file
+      .findElementAt(myFixture.editor.caretModel.offset)!!
+      .findParentInFile { it is PsiMethodCallExpression } as PsiMethodCallExpression
+    assertEquals(1, methodCall.argumentList.expressionCount)
+
+    myFixture.testAction(AddFunctionArgCommentAction())
+
+    assertMethodCallArgComment(methodCall, 0, "/*a*/")
+  }
+
   private fun assertMethodCallArgComment(methodCall: PsiMethodCallExpression, i: Int, expected: String?): Unit {
     val comment = findArgCommentFor(methodCall, i)
-    TestCase.assertEquals(expected, comment)
+    assertEquals(expected, comment)
   }
 
   private fun findArgCommentFor(methodCall: PsiMethodCallExpression, i: Int): String? {
