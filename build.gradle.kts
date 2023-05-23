@@ -107,9 +107,9 @@ tasks {
     }
 
     signPlugin {
-        certificateChain = environment("CERTIFICATE_CHAIN")
-        privateKey = environment("PRIVATE_KEY")
         password = environment("PRIVATE_KEY_PASSWORD")
+        certificateChain = File(System.getenv("CERTIFICATE_CHAIN")).readText(Charsets.UTF_8)
+        certificateChain = File(System.getenv("PRIVATE_KEY")).readText(Charsets.UTF_8)
     }
 
     publishPlugin {
